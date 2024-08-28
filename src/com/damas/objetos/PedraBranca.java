@@ -2,21 +2,19 @@ package com.damas.objetos;
 
 public class PedraBranca extends Pedra {
     public PedraBranca(Casa casa) {
-        super(casa, PEDRA_BRANCA);
+        super(casa, "pedra_branca", Cor.BRANCA);
     }
 
-    @Override
-    public boolean pertenceAoJogador(int vez) {
-        return vez == 1; // Jogador 2 é o dono das peças brancas
+    public boolean podeTransformarParaDama() {
+        return super.getCasa().getY() == 7;
+    }
+
+    public void transformarPedraParaDama() {
+        super.getCasa().colocarPeca(new Dama(super.getCasa(), "dama_branca", super.getCor()));
     }
 
     @Override
     public boolean isTipoValido() {
-        return getTipo() == Peca.PEDRA_BRANCA;
-    }
-
-    @Override
-    public boolean podeComer(Peca peca) {
-        return peca instanceof PedraBranca || peca instanceof DamaBranca;
+        return super.getCor() == Cor.BRANCA;
     }
 }

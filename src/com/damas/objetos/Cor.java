@@ -1,5 +1,17 @@
 package com.damas.objetos;
 
-public abstract class Cor {
-    public abstract boolean pertenceAoJogador(int vez);
+public enum Cor {
+    BRANCA {
+        public int getSentido() {
+            return 1;
+        }
+
+    },
+    VERMELHA {
+        public int getSentido() {
+            return -1;
+        }
+    };
+
+    public abstract int getSentido();
 }

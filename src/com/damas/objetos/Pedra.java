@@ -1,27 +1,35 @@
 package com.damas.objetos;
 
-/**
- * Representa uma Peça do jogo.
- * Possui uma casa e um tipo associado.
- * 
- * @author Alan Moraes &lt;alan@ci.ufpb.br&gt;
- * @author Leonardo Villeth &lt;lvilleth@cc.ci.ufpb.br&gt;
- * @author José Alisson Rocha da Silva {@link jose.alisson2@academico.ufpb.br}
- */
-public class Pedra implements Peca {
-    protected Casa casa;
-    protected int tipo;
+public abstract class Pedra implements Peca {
+    private Casa casa;
+    private String nomeImagem;
+    private Cor cor;
 
-    /**
-     * @param casa Objeto Casa
-     * @param tipo int tipo de peça (0 = Pedra Branca, 2 = Pedra vermelha) 
-     */
-    public Pedra(Casa casa, int tipo) {
+    public Pedra(Casa casa, String nomeImagem, Cor cor) {
         this.casa = casa;
-        this.tipo = tipo;
+        this.nomeImagem = nomeImagem;
+        this.cor = cor;
         casa.colocarPeca(this);
     }
     
+    public Casa getCasa() {
+        return casa;
+    }
+
+    public boolean podeMover(int distanciaX, int distanciaY, int sentidoY) {
+        return (distanciaX == 1 || distanciaY == 1) && (distanciaX == distanciaY) && sentidoY == cor.getSentido();
+    }
+
+    @Override
+    public String getNomeImagem() {
+        return nomeImagem;
+    }
+    
+    @Override
+    public Cor getCor() {
+        return cor;
+    }
+
     @Override
     public void mover(Casa destino) {
         casa.removerPeca();
@@ -47,28 +55,33 @@ public class Pedra implements Peca {
     }
 
     @Override
-    public int getTipo() {
-        return tipo;
-    }
+    public boolean podePercorrer(Tabuleiro tabuleiro, int deltaX, int deltaY) {
+        int x = casa.getX();
+        int y = casa.getY();
+        x += deltaX;
+        y += deltaY;
 
-    @Override
-    public boolean pertenceAoJogador(int vez) {
-        // Lança uma exceção para indicar que as subclasses precisam sobrescrever este método
-        throw new UnsupportedOperationException("Este método deve ser sobrescrito pela subclasse específica");
-        // return false;
-    }
+        try {
+            Pedra pecaAtual = tabuleiro.getCasa(x, y).getPeca();
+            
+            if (!( pecaAtual == null)) {
+                if (tabuleiro.getCasa((x + deltaX), (y + deltaY)).getPeca() != null) {
+                    return false;
+                }
 
-    @Override
-    public boolean isTipoValido() {
-        // Lança uma exceção para indicar que as subclasses precisam sobrescrever este método
-        throw new UnsupportedOperationException("Este método deve ser sobrescrito pela subclasse específica");
-        // return false;
-    }
+                // VERIFICA SE A PEÇA NO CAMINHO É DA MESMA COR
+                if(pecaAtual.getCor() == this.cor){
+                    return false;
+                }
+                return true;
+            }
 
-    @Override
-    public boolean podeComer(Peca peca) {
-        // Lança uma exceção para indicar que as subclasses precisam sobrescrever este método
-        throw new UnsupportedOperationException("Este método deve ser sobrescrito pela subclasse específica");
-        // return false;
+        } catch (Exception e) {
+            return false;
+        }
+
+        // Verificação para caso não capture nenhuma peça e se torne inválido
+        // Refatorado
+        return false;
     }
 }

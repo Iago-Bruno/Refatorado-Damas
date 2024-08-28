@@ -11,6 +11,8 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+import com.damas.objetos.Peca;
+
 /**
  * Interface Grafica de uma Casa no tabuleiro do jogo.
  *
@@ -71,6 +73,11 @@ public class CasaGUI extends JButton {
 
     public int getPosicaoY() {
         return this.y;
+    }
+
+    public void desenharPedra(Peca peca) {
+        URL urlImagem = CasaGUI.class.getResource("/resources/"+peca.getNomeImagem()+".png");
+        setIcon(new ImageIcon(urlImagem));
     }
 
     public void desenharPedraBranca() {

@@ -9,21 +9,16 @@ public class Jogador {
     
     private String nome;
     private int pontos;
+    private Cor cor;
 
-    public Jogador (String nome) {
-
-        if (validarNome(nome)) {
-            this.nome = nome;
-        } else {
-            this.nome = DEFAULT_NAME;
-        }
-
+    public Jogador (String nome, Cor cor) {
+        this.nome = validarNome(nome) ? nome : DEFAULT_NAME;
+        this.cor = cor;
         pontos = 0;
     }
 
     private boolean validarNome(String nome) {
-        if (nome.length() > 16) return false;
-        return true;
+        return nome.length() <= 16;
     }
 
     public void addPonto() {
@@ -43,7 +38,12 @@ public class Jogador {
     }
 
     public void setNome(String nome) {
-        validarNome(nome);
+        if(validarNome(nome)) {
+            this.nome = nome;
+        }
     }
 
+    public Cor getCor() {
+        return cor;
+    }
 }

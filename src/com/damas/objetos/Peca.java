@@ -1,9 +1,5 @@
 package com.damas.objetos;
 
-/**
- * Interface com os métodos abstratos das peças
- * @author João Victor da S. Cirilo {@link joao.cirilo@academico.ufpb.br}
- */
 public interface Peca {
     
     public static final int PEDRA_BRANCA = 0;
@@ -26,19 +22,20 @@ public interface Peca {
      */
     public boolean isMovimentoValido(Casa destino);
 
-    /**
-     * Retorna o tipo da peça
-     * @return
-     * {@code int} 0 - {@code Pedra} branca
-     * <li>{@code int} 1 - {@code Dama} branca</li>
-     * <li>{@code int} 2 - {@code Pedra} vermelha</li>
-     * <li>{@code int} 3 - {@code Dama} verelha</li>
-     */
-    public int getTipo();
+    // Refatorado
+    public Cor getCor();
 
-    boolean pertenceAoJogador(int vez);
+    // Refatorado
+    public String getNomeImagem();
 
-    boolean isTipoValido();
+    public boolean podeMover(int distanciaX, int distanciaY, int sentidoY);
 
-    boolean podeComer(Peca peca);
+    // Refatorado
+    public boolean podePercorrer(Tabuleiro tabuleiro, int deltaX, int deltaY);
+
+    public boolean podeTransformarParaDama();
+
+    public void transformarPedraParaDama();
+
+    public boolean isTipoValido();
 }
